@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>주문 정보</h2>
+	<input type="text" name="productName" placeholder="상품명"/></br>
+	<input type="Number" name="price" placeholder="단가"/></br>
+	<input type="Number" name="quantity" placeholder="수량"/></br>
+	<input type="text" name="orderName" placeholder="주문자"/></br>
+	<input type="submit" value="order">
+</body>
+</html>

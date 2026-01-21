@@ -1,0 +1,55 @@
+package com.green;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+
+@Controller
+public class MemberController {
+
+    private final SamplePjt02Application samplePjt02Application;
+
+    MemberController(SamplePjt02Application samplePjt02Application) {
+        this.samplePjt02Application = samplePjt02Application;
+    }
+	
+	// 아래 작성한 메서드는 핸들러 메서드임
+	// 회원가입 양식
+	@GetMapping("/member/signup") // http://localhost8090/member/signup 의 경로를 매핑(=연결)
+	public String signUpForm() {
+		System.out.println("signUpForm()"); // log 역할(에러가 있는지 확인)
+		return "signUpForm"; // 응답에 사용하는 html 파일 이름 반환
+	}
+	
+	// 로그인 양식
+	@GetMapping("/member/signin")
+	public String signInForm() {
+		System.out.println("signInForm");
+		return "signinform"; // src/main/resources/templates/signinfrom.html 과 매핑(매핑 주소는 @GetMapping("/member/signin"))
+	}
+	
+	// 회원가입한 데이터가 signUpResult 페이지로 전달되는 메서드
+	// 숨겨서 가는 @PostMapping() 사용
+	// 가입한 자료를 매개변수로 넘겨줘야 하므로, @RequestParam 사용
+	@PostMapping("/member/signUp_confirm")
+	public String signupconfrim(
+			@RequestParam(value="id") String id,
+			@RequestParam("pw") String pw,
+			@RequestParam("email") String email,
+			Model model // model에 담아서 데이터(id,pw,email)를 전달
+			) {
+		System.out.println("signupconfirm");
+		
+		// model로 담기
+		model.addAttribute("new_id", id);
+		model.addAttribute("new_pw", pw);
+		model.addAttribute("new_email", email);
+		
+		return "signUpResult";
+	}
+}
+

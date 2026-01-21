@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>주문 정보</h2>
+	<p>상품명: <span th:text="${productName}"></span></p>
+	<p>단가: <span th:text="${price}"></span></p>
+	<p>수량: <span th:text="${quantity}"></span></p>
+	<p>주문자: <span th:text="${orderName}"></span></p>
+	<p>총 금액: <span th:Number="${total}"></span></p>
+</body>
+</html>

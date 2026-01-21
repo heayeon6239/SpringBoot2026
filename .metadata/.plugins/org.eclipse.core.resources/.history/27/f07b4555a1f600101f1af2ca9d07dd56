@@ -1,0 +1,6 @@
+package com.green.controller;
+
+@MovieController
+public class Controller {
+
+}

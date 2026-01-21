@@ -1,0 +1,40 @@
+package com.green.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class MovieController {
+	
+	@GetMapping("/movie/reserve") // 찾은 movie.html로 웹에 띄워줌
+	public String reserve() {
+		System.out.println("reserve()");
+		return "movie"; // movie.html 이라는 템플릿을 찾음
+	}
+	
+	
+	@GetMapping("/movie/reserveConfirm")
+	public ModelAndView reserveCon(
+			@RequestParam(value="movieTitle") String title,
+			@RequestParam(value="reserveDate") String date,
+			@RequestParam(value="reserveTime") String time,
+			@RequestParam(value="people") String people,
+			@RequestParam(value="reserverName") String name
+			) {
+		System.out.println("reserveCon()");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("movieTitle", title); // @RequestParam으로 받은 값들을 mav(모델)에 담아줌
+		mav.addObject("reserveDate", date);
+		mav.addObject("reserveTime", time);
+		mav.addObject("people", people);
+		mav.addObject("reserveName", name);
+		mav.setViewName("reserve"); // reserve.html 이라는 템플릿을 찾아서 mav(모델)에 담아줌
+		
+		return mav; // 모델에 담은 값들과 템플릿을 한번 반환
+		
+	}
+}

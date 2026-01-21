@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>예매 확인</h2>
+	<p>영화 제목: <span th:text="${movieTitle}"></span></p> <!-- movieTitle 이라는 변수명을 공유받아 값을 넣어줌 -->
+	<p>관람 날짜: <span th:text="${reserveDate}"></span></p>
+	<p>관람 시간: <span th:text="${reserveTime}"></span></p>
+	<p>인원: <span th:text="${people}"></span></p>
+	<p>예매자: <span th:text="${reserveName}"></span></p>
+	<p>예매가 완료되었습니다!</p>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<Form>
+		<h2>도서 대여</h2>
+		<input type="text" name="bookName" placeholder="도서명" /></br>
+		<input type="text" name="author" placeholder="저자" /></br>
+		<input type="text" name="ISBN" placeholder="ISBN" /></br>
+		<input type="text" name="renterName" placeholder="대여자" /></br>
+		<input type="submit" value="rent"/>
+	</Form>
+</body>
+</html>

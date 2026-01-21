@@ -1,0 +1,41 @@
+package com.green.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class MovieController {
+	
+	@GetMapping("/movie/reserve")
+	
+	public String reserve() {
+		System.out.println("reserve()");
+		return "movie";
+	}
+	
+	@GetMapping("/movie/reserveConfirm")
+	
+	public ModelAndView reserveCon(
+			@RequestParam(value="movieTitle") String title,
+			@RequestParam(value="reserveDate") String date,
+			@RequestParam(value="reserveTime") String time,
+			@RequestParam(value="people") String people,
+			@RequestParam(value="reserverName") String name
+			) {
+		System.out.println("reserveCon()");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("movieTitle", title);
+		mav.addObject("reserveDate", date);
+		mav.addObject("reserveTime", time);
+		mav.addObject("people", people);
+		mav.addObject("reserveName", name);
+		mav.setViewName("reserve");
+		
+		return mav;
+		
+	}
+}

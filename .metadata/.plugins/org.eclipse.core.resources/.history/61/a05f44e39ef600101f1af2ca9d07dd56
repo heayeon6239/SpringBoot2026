@@ -1,0 +1,40 @@
+package com.green.Controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class OrderController {
+	
+	// 주문 입력 페이지
+	@GetMapping("/product/order")
+	
+	public String order() {
+		System.out.println("order()"); // 오류 확인용
+		return "Order";
+	}
+	
+//	// 주문 결과 페이지
+	@GetMapping("/product/orderresult")
+	
+	public ModelAndView orderResult(
+			@RequestParam(value="productName") String productName,
+			@RequestParam(value="price") String price,
+			@RequestParam(value="quantity") String quantity,
+			@RequestParam(value="orderName") String orderName
+			) {
+		System.out.println("orderResult()"); // 오류 확인
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("productName", productName);
+		mav.addObject("price", price);
+		mav.addObject("quantity", quantity);
+		mav.addObject("orderName", orderName);
+		int total = (int) (price*quantity);
+		
+		return mav;
+	}
+}

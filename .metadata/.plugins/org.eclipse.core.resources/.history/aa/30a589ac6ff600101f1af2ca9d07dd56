@@ -1,0 +1,16 @@
+package com.green;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class MmberController {
+	
+	// 아래 작성한 메서드는 핸들러 메서드임
+	// 회원가입 양식
+	@GetMapping("/member/signup") // http://localhost8090/member/signup 의 경로를 매핑(=연결)
+	public String signUpForm() {
+		System.out.println("signUpForm()");
+		return "signUpForm"; // 응답에 사용하는 html 파일 이름 반환
+	}
+}
