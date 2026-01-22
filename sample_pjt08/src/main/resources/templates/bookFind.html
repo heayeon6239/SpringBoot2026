@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<Form th:action="@{/book/bookList}" method="GET">
+	<h2>이름 입력</h2>
+		<input type="text" name="renterName" placeholder="이름"/>
+		<input type="submit" value="find"/>
+	</Form>
+</body>
+</html>

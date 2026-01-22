@@ -11,12 +11,6 @@ import com.green.SamplePjt03Application;
 
 @Controller // 컨트롤러 어노테이션
 public class BookController {
-
-    private final SamplePjt03Application samplePjt03Application;
-
-    BookController(SamplePjt03Application samplePjt03Application) {
-        this.samplePjt03Application = samplePjt03Application;
-    }
 	
 	// 대여 페이지
 	@GetMapping("/book/rental")
