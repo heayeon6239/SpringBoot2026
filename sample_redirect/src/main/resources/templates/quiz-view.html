@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>비밀번호를 입력하세요(힌트:1234)</h1>
+	<p th:if="${msg}" th:text="${msg}" style="color : red;"></p>
+	<Form th:action="@{/check-quiz}" method="post">
+		<input type="text" name="pass" placeholder="비번 입력"/>
+		<input type="submit" />
+	</Form>
+	
+</body>
+</html>

@@ -6,11 +6,14 @@
 </head>
 <body>
 	<h2>도서 대여 내역</h2>
-	<p>도서명: <span th:text="${bookName}"></span></p>
-	<p>저자: <span th:text="${author}"></span></p>
-	<p>ISBN: <span th:text="${ISBN}"></span></p>
-	<p>대여자: <span th:text="${renterName}"></span></p>
-	<p>대여일자: <span th:text="${rentDate}"></span></p>
-	<p>반납일자: <span th:text="${returnDate}"></span></p>
+	<div th:each="li : ${rentList}">
+		<p>도서명: <span th:text="${li.bookName}"></span></p>
+		<p>저자: <span th:text="${li.author}"></span></p>
+		<p>ISBN: <span th:text="${li.ISBN}"></span></p>
+		<p>대여자: <span th:text="${li.renterName}"></span></p>
+		<p>대여일자: <span th:text="${li.rentDate}"></span></p>
+		<p>반납일자: <span th:text="${li.returnDate}"></span></p>
+	</div>
+	
 </body>
 </html>
