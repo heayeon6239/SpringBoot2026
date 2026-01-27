@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Board</title>
+<link rel="styleSheet" th:href="@{/css/header_footer.css}">
+
+</head>
+<body>
+	<header th:fragment="header">
+		<div class ="top">
+			<h1>Board</h1>
+			<a th:href="@{/}">홈</a>
+			<a th:href="@{/board/boardMain}">게시판</a>
+		</div>
+	</header>
+	
+	<footer th:fragment="footer">
+		<div class ="bottom">
+			Copyright OFFICE @Green
+		</div>
+	</footer>
+</body>
+</html>

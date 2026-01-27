@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="styleSheet" th:href="@{/css/header_footer.css}">
+
+</head>
+<body>
+	<header th:replace="~{header_footer.html::header}"></header>
+	<section>
+		<div id="section_wrap">
+			<div class="title"><h1>게시판</h1></div>
+			<div class="content">
+				<table width="500" border="1">
+					<thead>
+						<tr>
+							<th>게시글 번호</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<a th:href="@{/board/boardWrite}">게시글 작성</a>
+			</div>
+		</div>
+	</section>
+	<footer th:replace="~{header_footer.html::footer}"></footer>
+</body>
+</html>

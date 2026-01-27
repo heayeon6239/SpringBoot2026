@@ -30,7 +30,10 @@
 						</tr>
 						<tr th:each="li: ${list}">
 							<td th:text="${li.no}"></td>
-							<td th:text="${li.id}"></td>
+							<td>
+							<!-- a태그에서 th:href="@{/member/memberInfo(id=${li.id})}" 이렇게 넘기면 무조건 GET방식 !!!! 받을 때 POST면 오류 -->
+								<a th:href="@{/member/memberInfo(id=${li.id})}" th:text="${li.id}"></a>
+							</td>
 							<td th:text="${li.pw}"></td>
 							<td th:text="${li.mail}"></td>
 							<td th:text="${li.phone}"></td>
@@ -45,5 +48,9 @@
 	</section>
 	
 	<footer th:replace="~{/include/header_nav_footer.html::footer}"></footer>
+	
+	<Script th:if="${msg}">
+		alert('[[${msg}]]');
+	</Script>
 </body>
 </html>

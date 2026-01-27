@@ -3,7 +3,6 @@ package com.green.member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mysql.cj.protocol.Resultset;
+
 @Repository // 데이터가 저장된 저장소
 public class MemberDAO {
 	
@@ -19,6 +20,7 @@ public class MemberDAO {
 	// 외부에서 DataSource를 DI로 삽입
 	@Autowired
 	private DataSource dataSource;
+
 //	@Autowired
 //	MemberDTO mdto;
 	
@@ -65,7 +67,7 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		
-		return 0;
+		return result;
 	}
 	
 	// 회원가입한 유저 모두 출력시키는 메서드 작성
@@ -109,32 +111,137 @@ public class MemberDAO {
 		}
 		return list;
 	}
-//	public String printUser() {
-//		System.out.println("MemberDAO printUser()");
-//		String sql = "SELECT * FROM user_member";
-//		ArrayList<MemberDTO> dataArr = new ArrayList<>();
-//		
-//		try(
-//				Connection conn = dataSource.getConnection();
-//				Statement stmt = conn.createStatement();
-//				ResultSet rs = stmt.executeQuery(sql);
-//				){
-//			
-//			while(rs.next()) {
-//				MemberDTO user = new MemberDTO(); 
-//				
-//				user.setNo(rs.getIn);
-//			}
-//			
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
+
 
 	public boolean isMember(String id) {
 		System.out.println("MemberDAO isMember()");
 		return false;
+	}
+	
+	// ----------------------- 2026-01-27 추가 쿼리 작성 부분 ---------------------------
+	
+	// 개인 한 사람의 정보를 검색하는 메서드(단, 정보 수정시 비밀번호가 일치하는지 확인)
+	public MemberDTO oneSelectMember(String id) {
+		System.out.println("MemberDAO oneSelectMember()");
+		// 01. 반환받을 MemberDTO 객체화
+		MemberDTO mdto = new MemberDTO();
+		// 02. sql 구문 작성
+		String sql = "SELECT * FROM user_member WHERE id=?";
+		// 03. 예외 처리 try(자동 close를 위해 Connection 설정) ~ catch()
+		try(
+				Connection conn = dataSource.getConnection();
+				PreparedStatement psmt = conn.prepareStatement(sql); // 그냥 Statement 를 쓰면 필드명을 다 박아줘야함
+				){
+			
+			// 실행문 작성은 여기서 (※ 항상 ? 대응을 먼저 작성)
+			psmt.setString(1, id);
+			
+			// select문은 반드시 executeQuery()로 실행해서 ResultSet 객체에 담음 ★
+			ResultSet rs = psmt.executeQuery();
+			
+			// mdto에 값 담기 (※ rs.next() 없이 값을 꺼내오면 항상 빈 DTO임을 주의)
+			if(rs.next()) { // 값이 존재하는지 항상 물어봐야함 ★
+				mdto.setNo(rs.getInt("no"));
+				mdto.setId(rs.getString("id"));
+				mdto.setPw(rs.getString("pw"));
+				mdto.setMail(rs.getString("mail"));
+				mdto.setPhone(rs.getString("phone"));
+				mdto.setReg_date(rs.getString("reg_date"));
+				mdto.setMod_date(rs.getString("mod_date"));
+			}
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return mdto;
+		
+	}
+	
+	// 개인 한사람의 정보를 수정하는 쿼리(단, 정보 수정시 비밀번호가 일치하는지 확인)
+	public int updateMember(MemberDTO mdto) {
+		System.out.println("MemberDAO updateMember()");
+		int result=0;
+		// 반환할 값 객체화
+		//MemberDTO mdto = new MemberDTO();
+		// sql문
+		String sql = "UPDATE user_member SET mail=?, phone=? WHERE id=?";
+		// 예외처리
+		try(
+				// 데이터랑 연결
+				Connection conn = dataSource.getConnection();
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				){
+			
+			// 실행문 작성
+			// ? 대응
+			psmt.setString(1, mdto.getMail());
+			psmt.setString(2, mdto.getPhone());
+			psmt.setString(3, mdto.getId());
+			
+			// executeUpdate()로 실행, 업데이트(수정)해서 result에 담기
+			result = psmt.executeUpdate();
+			System.out.println("update 결과값"+result);
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
+	// 개인 한사람의 비밀번호 리턴하는 쿼리
+	public String getPass(String id) {
+		System.out.println("MemberDAO getPass()");
+		String pass="";
+		String sql = "SELECT pw FROM user_member WHERE id=?";
+		
+		try(
+				Connection conn = dataSource.getConnection();
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				){
+			
+			// 실행문
+			// ? 대응
+			psmt.setString(1, id);
+			ResultSet rs = psmt.executeQuery();
+			if(rs.next()) {
+				pass = rs.getString(1); // 비밀번호 값에 저장된 매핑인덱스(= getString("pw"))
+			}
+			System.out.println("getPass 값: "+pass);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return pass;
+	}
+	
+	// 한사람 개인의 정보를 삭제하는 메서드 작성
+	public int deleteMember(String id) {
+		System.out.println("MemberDAO deleteMember()");
+		int result = 0;
+		
+		String sql = "DELETE FROM user_member WHERE id=?";
+		
+		try(
+				Connection conn = dataSource.getConnection();
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				){
+			
+			// 실행문
+			// ? 대응
+			psmt.setString(1, id);
+			// executeUpdate(): delete, insert, update
+			// executeQuery() : select
+			result = psmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+		
 	}
 
 	

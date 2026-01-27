@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+header{
+	width: 100%;
+	padding: 7px 0;
+}
+
+header .top {
+height: 70px;
+line-height: 70px;
+border-bottom: 1px solid #ccc;
+text-align: center;
+background-color: #ededed;
+}
+
+footer {
+width: 100%;
+border-top: 1px solid #ccc;
+padding: 10px 0;
+background-color: #363636;
+}
+
+footer .footer_wrap {
+width: 1000px; height: 100px;
+line-height: 100px;
+color: #fafafa;
+margin: 0 auto;
+text-align: center;
+font-size: .9em;
+}

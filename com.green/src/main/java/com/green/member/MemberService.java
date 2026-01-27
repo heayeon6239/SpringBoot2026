@@ -52,4 +52,55 @@ public class MemberService {
 		
 	}
 	
+	// ----------------------- 2026-01-27 서비스로직 작성 부분 ---------------------------
+	
+	// 해당 id의 정보를 받아오는 메서드
+	public MemberDTO oneSelect(String id) {
+		System.out.println("MemberService oneSelect()");
+		return memberdao.oneSelectMember(id);
+	}
+	
+//	public int oneModify(MemberDTO mdto) {
+//		System.out.println("MemberService oneModify()");
+//		String password = memberdao.getPass(mdto.getId()); // DB에서의 해당 id의 비밀번호 값
+//		// 비밀번호가 일치하면 수정
+//		if(password.equals(mdto.getId()) && password != null) { // DB의 비밀번호가 입력한 비밀번호 값 비교
+//			return memberdao.updateMember(mdto);
+//		}else {
+//			return -1; // 실패
+//		}
+//		
+//	}
+	
+	// 개인 1명의 비밀번호만 출력하는 메서드
+	public String onePass(String id) {
+		// void가 아닌 이상 데이터 타입이 존재하면 반드시 return 필요
+		return memberdao.getPass(id);
+	}
+	
+	// 개인 1명의 정보를 수정하는 메서드(DB의 비밀번호와 일치하는지 비교)
+	public boolean modifyMember(MemberDTO mdto) {
+		System.out.println("MemberService modifyMember()");
+		
+		// DB조회
+		String dbPass = memberdao.getPass(mdto.getId());
+		System.out.println("dbPass: "+dbPass);
+		System.out.println("광민확인"+mdto.getPw());
+		// if로 비교
+		if(dbPass != null && dbPass.equals(mdto.getPw())) {
+			// 내가 입력한 DB의 패스워드가 존재하면
+			return memberdao.updateMember(mdto) == 1; // 1 이면 업데이트됨, 1 == 1 -> true !
+		}else {
+			// 내가 입력한 DB의 패스워드가 존재하지 않으면
+			return false;
+		}
+	}
+	
+	// 개인 1명의 정보를 삭제하는 메서드
+	public boolean oneDelete(String id) {
+		System.out.println("MemberService oneDelete()");
+		return memberdao.deleteMember(id) == 1; // 값이 일치하면 true
+	}
+	
+	
 }
