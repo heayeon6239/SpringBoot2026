@@ -27,20 +27,44 @@ public class BoardController {
 	@PostMapping("/board/writePro")
 	public String boardWritePro(BoardDTO bdto) {
 		System.out.println("(1) BoardController boardWritePro()");
+		System.out.println("controller: "+bdto.getWriterPw());
 		boardservice.addBoard(bdto);
 		// 저장 후에는 게시판 목록으로 페이지 이동(redirect)
 		return "redirect:/board/list";
 	}
 	
 	// 03. 전체 게시글 목록 출력 (boardlist에 담긴 전체 데이터 값들을 model에 담음)
+	// 03-1 검색기능을 추가한 커스텀 버전
 	@GetMapping("/board/list")
-	public String boardListForm(Model model) {
+	public String boardListForm(Model model, 
+			@RequestParam(value="searchType", required=false) String searchType, 
+			@RequestParam(value="SearchKeyword", required=false) String SearchKeyword) {
 		System.out.println("(1) BoardController boardListForm()");
-		List<BoardDTO> listboard = boardservice.allBoard(); // List<E> 부모 타입으로 호출(Arraylist 배열)
+		
+		List<BoardDTO> listboard;
+		
+		// 검색 내용 출력
+		if(searchType != null && !SearchKeyword.trim().isEmpty()) { // 공백인지 아닌지
+			listboard = boardservice.searchBoard(searchType, SearchKeyword);
+		}
+		// 전체 출력
+		else {
+			listboard = boardservice.allBoard(); // 전체보기
+		}
+		// 검색 내용만 담겼거나, 전체가 담긴 listboard를 li에 담음
 		model.addAttribute("li", listboard);
 		String nextPage = "/board/boardList";
 		return nextPage;
 	}
+	// 03-2 원본 버전
+//	@GetMapping("/board/list")
+//	public String boardListForm(Model model) {
+//		System.out.println("(1) BoardController boardListForm()");
+//		List<BoardDTO> listboard = boardservice.allBoard(); // List<E> 부모 타입으로 호출(Arraylist 배열)
+//		model.addAttribute("li", listboard);
+//		String nextPage = "/board/boardList";
+//		return nextPage;
+//	}
 	
 	// 04. 해당 게시글 출력(num 번호를 받아 -> 해당 게시글 DB에서 조회 -> 받아온 상세 정보를 boardDTO에 저장
 	@GetMapping("board/boardInfo")
@@ -79,4 +103,24 @@ public class BoardController {
 		}
 		
 	}
+	
+	// ----------------------- 2026-01-29 --------------------------
+	
+	// 07. 해당 게시글 삭제 핸들러
+	@GetMapping("/board/deletePro")
+	public String deletePro(@RequestParam("num") int num, @RequestParam("writerPw") String writerPw) {
+		System.out.println("(1) BoardController deletePro()");
+		boolean result = boardservice.removeBoard(num, writerPw);
+		// 삭제 성공 -> list
+		if(result) {
+			return "redirect:/board/list";
+		}
+		// 삭제 실패 -> boardInfo 유지
+		else {
+			return "redirect:/board/boardInfo?num="+num;
+		}
+		
+	}
+	
+
 }

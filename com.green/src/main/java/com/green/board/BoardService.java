@@ -13,6 +13,7 @@ public class BoardService {
 	
 	// 게시글이 추가되는 메서드(bdao호출하여 사용)
 	public void addBoard(BoardDTO bdto) {
+		System.out.println("service: "+bdto.getWriterPw());
 		System.out.println("BoardService addBoard()");
 		bdao.insertBoard(bdto);
 	}
@@ -40,5 +41,27 @@ public class BoardService {
 			System.out.println("게시글 수정 실패");
 			return false;
 		}
+	}
+	
+	// ----------------------- 2026-01-29 --------------------------
+	
+	// 해당 게시글 삭제 메서드
+	public boolean removeBoard(int num, String writerPw) {
+		System.out.println("BoardService removeBoard()");
+		int result = bdao.deleteBoard(num, writerPw);
+		if(result > 0) {
+			System.out.println("게시글 삭제 성공");
+			return true;
+		}else {
+			System.out.println("게시글 삭제 실패");
+			return false;
+		}
+	}
+	
+	// 게시글 검색 메서드
+	public List<BoardDTO> searchBoard(String searchType, String SearchKeyword){
+		System.out.println("BoardService searchBoard()");
+		System.out.println("searchType: "+searchType+"SearchKeyword: "+SearchKeyword);
+		return bdao.getSearchBoard(searchType, SearchKeyword);
 	}
 }

@@ -243,6 +243,40 @@ public class MemberDAO {
 		return result;
 		
 	}
+	
+	// --------------------- 2026-01-29 ------------------------
+	
+	// 로그인 메서드
+//	public MemberDTO loginMember(String id, String pw) {
+//		System.out.println("MemberDAO loginMember()");
+//		String sql = "SELECT * FROM user_member WHERE id=? AND pw=?";
+//		int result = 0;
+//		MemberDTO mdto = new MemberDTO();
+//		
+//		try(
+//				Connection conn = dataSource.getConnection();
+//				PreparedStatement psmt = conn.prepareStatement(sql);
+//				){
+//			
+//			// 실행문
+//			psmt.setString(1, id);
+//			psmt.setString(2, pw);
+//			
+//			// 실행
+//			ResultSet rs = psmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				mdto.setId(rs.getString("id"));
+//				mdto.setPw(rs.getString("pw"));
+//				
+//			}
+//			
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		return mdto;
+//	}
+	
 
 	
 }

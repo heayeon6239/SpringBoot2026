@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class MemberController {
 	
@@ -27,19 +29,21 @@ public class MemberController {
 	
 	// 회원가입 확인
 	@PostMapping("/member/signup_confirm")
-	public String signipConfirm(MemberDTO mdto, Model model) {
+	public String signinConfirm(MemberDTO mdto, Model model) {
 		System.out.println("MemberController signipConfirm() -> member.js에서 다 입력했는지 확인하고 문제없으면 submit(전송)함");
 		String nextPage = "/member/signup_result";
+		
 		// 회원가입이 제대로 되었는지, 혹은 실패했는지 예외처리
 		int result = memberservice.signupConfirm(mdto); // service에서 확인하는 메서드로 감(여기서 만들면 service에 자동 create됨)
 		System.out.println("result의 결과"+result);
+		
 		// 회원가입이 성공하였을 경우 => 회원 목록으로 redirect(새로운 주소로 곧바로 이동) !!!!!
 		if(result == memberservice.user_id_success) {
-			return "redirect:/member/list";
+			model.addAttribute("result", result); // service에서 확인하고 가져온 값을 result라는 변수에 넣어서 model에 담음
+			return nextPage;
 		}
 		// 회원가입이 실패한 경우
 		else {
-			model.addAttribute("result", result); // service에서 확인하고 가져온 값을 result라는 변수에 넣어서 model에 담음
 			return nextPage;
 		}
 	}
@@ -133,5 +137,61 @@ public class MemberController {
 			re.addFlashAttribute("msg", "삭제 실패");
 			return "redirect:/member/memberInfo?id="+id;
 		}
+	}
+	
+	// --------------------- 2026-01-29 ------------------------
+	
+	// 로그인 화면 이동 컨트롤러
+	@GetMapping("/member/login")
+	public String loginForm() {
+		System.out.println("MemberController loginForm()");
+		String nextPage = "member/login_form";
+		return nextPage;
+	}
+	
+	
+	// 로그인 메서드 
+	@PostMapping("/member/loginPro")
+	public String loginPro(MemberDTO mdto, HttpSession session) {
+		System.out.println("MemberController loginPro()");
+		MemberDTO loginMember = memberservice.logincConfirm(mdto);
+		String manager = "관리자";
+		
+		// 로그인 성공
+		if(loginMember != null) {
+			
+			// ※ Model 객체 => 요청 일회용임(화면이 이동하면 바로 사라짐, 로그인 유지가 안됨)
+			// ★ Session(세션) => 스프링부트의 내장 객체, 꺼내서 사용
+			//   Session(세션)이란? => 서버가 사용자 한명을 기억하기위한 사용하는 저장공간(화면 이동하더라도 로그인 유지 가능)
+			// 클래스 이름 : HttpSession
+			
+			// Session 기본 3가지 명령어
+			// 01. 세션에 값 저장하기
+			//     session(참조변수이름).setAttribute("이름", 값) => 로그인 성공시 사용
+			// 02. 세션에 저장된 값 가져오기
+			//     session(참조변수이름).getAttribute("이름") => 로그인 여부 확인
+			// 01. 세션 전체 삭제
+			//     session(참조변수이름).invaluable(); => 로그아웃 시
+			
+			
+			session.setAttribute("loginmember", loginMember);
+			return "redirect:/";
+		}
+		// 로그인 실패
+		else {
+			return "redirect:/member/login";
+		}
+	}
+	
+	// 로그아웃
+	@GetMapping("/member/logout")
+	public String logout(HttpSession session) {
+		System.out.println("MemberController logout()");
+		
+		// 01. session에 담겨있으므로 session.invalidate()로 세션객체 완전 삭제
+		session.invalidate();
+		
+		// 로그아웃 시 home으로 이동
+		return "redirect:/";
 	}
 }

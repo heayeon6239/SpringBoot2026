@@ -28,6 +28,7 @@ public class BoardDAO {
 
 	// 게시글 작성하여 추가하는 메서드(쿼리문)
 	public void insertBoard(BoardDTO bdto) {
+		System.out.println(bdto.getWriterPw());
 
 		// 추가하는 쿼리문 insert into 테이블명 values()
 		String sql = "INSERT INTO board(writer,subject,writerPw,content) VALUES(?,?,?,?)";
@@ -159,5 +160,84 @@ public class BoardDAO {
 		
 		return result;
 	}
+	
+	// ----------------------- 2026-01-29 --------------------------
+	
+	// 해당 게시글 삭제 메서드(게시글 작성시 비밀번호 입력 -> 삭제시에도 비밀번호와 번호가 일치하는지 비교)
+	public int deleteBoard(int num, String writerPw) {
+		System.out.println("BoardDAO deleteBoard()");
+		String sql = "DELETE FROM board WHERE num=? AND writerPw=?";
+		int result = 0;
+		
+		try(
+				Connection conn = datasource.getConnection();
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				){
+			
+			// 실행문
+			psmt.setInt(1, num);
+			psmt.setString(2, writerPw);
+			
+			// 실행
+			result = psmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	// 제목, 내용 검색 메서드( ★검색 메서드 매개변수 : searchType, searchKeyword )
+	public List<BoardDTO> getSearchBoard(String searchType, String SearchKeyword) {
+		System.out.println("BoardDAO getSearchBoard()");
+		
+		List<BoardDTO> blist = new ArrayList<>();
+		
+		String sql = "";
+		// 제목 검색
+		if("subject".equals(searchType)) {
+			sql = "SELECT * FROM board WHERE subject LIKE ? ORDER BY num DESC";
+		}
+		// 내용 검색
+		else {
+			sql = "SELECT * FROM board WHERE content LIKE ? ORDER BY num DESC";
+		}
+		
+		
+		
+		try(
+				Connection conn = datasource.getConnection();
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				){
+			
+			// 실행문
+			psmt.setString(1, "%"+SearchKeyword+"%");
+			
+			// 실행
+			ResultSet rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO bdto = new BoardDTO(); // while문 돌때마다 생성해야함
+				
+				bdto.setNum(rs.getInt("num")); 
+				bdto.setWriter(rs.getString("writer"));
+				bdto.setWriterPw(rs.getString("writerPw"));
+				bdto.setSubject(rs.getString("subject"));
+				bdto.setReg_date(rs.getString("reg_date"));
+				bdto.setContent(rs.getString("content"));
+				bdto.setReadcount(rs.getInt("readcount"));
+				
+				blist.add(bdto); // 배열에 추가
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return blist;
+	}
+	
 
 }
