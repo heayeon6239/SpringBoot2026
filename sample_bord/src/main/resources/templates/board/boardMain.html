@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="styleSheet" th:href="@{/css/header_footer.css}">
+<link rel="styleSheet" th:href="@{/css/boardMain.css}">
 
 </head>
 <body>
@@ -22,15 +23,28 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+						<tr th:each="li: ${list}">
+							<td th:text="${li.id}"></td>
+							<td>
+								<a th:href="@{/board/oneboard(id=${li.id})}" th:text="${li.title}"></a>
+							</td>
+							<td th:text="${li.writer}"></td>
+							<td th:text="${li.createAt}"></td>
 						</tr>
 					</tbody>
 				</table>
 				<a th:href="@{/board/boardWrite}">게시글 작성</a>
+				<form th:action="@{/board/boardMain}" method="GET">
+					<select name="searchType">
+						<option value="title">제목</option>
+						<option value="content">내용</option>
+					</select>
+					
+					<input type="text" name="findKeyword"/>
+					<input type="date" name="writeDate" value="날짜"/>
+					<input type="submit" value="검색"/>
+					<input type="button" value="전체보기" th:onclick="|location.href='@{/board/boardMain}'|"/>
+				</form>
 			</div>
 		</div>
 	</section>

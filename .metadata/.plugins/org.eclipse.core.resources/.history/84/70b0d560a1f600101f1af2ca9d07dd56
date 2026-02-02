@@ -1,6 +1,0 @@
-package com.green.controller;
-
-@MovieController
-public class MovieController {
-
-}

@@ -1,8 +1,0 @@
-package com.green.Controller;
-
-import org.springframework.stereotype.Controller;
-
-@Controller
-public class OrderController {
-
-}

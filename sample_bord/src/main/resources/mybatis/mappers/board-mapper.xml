@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="MemberMapper의 패키지 경로 복붙.인터페이스 이름 -->
+<mapper namespace="com.green.board.mapper.BoardMapper">
+	
+	<!-- public int addBoardPost(BoardDTO bdto) -->
+	<insert id="addBoardPost" parameterType="BoardDTO">
+		INSERT INTO board(title,content,writer) VALUE(#{title},#{content},#{writer})
+	</insert>
+	
+	<!-- public List<BoardDTO> PrintAllBoard() -->
+	<select id="PrintAllBoard" resultType="BoardDTO">
+		SELECT * FROM board ORDER BY id DESC
+	</select>
+	
+	<!-- public BoardDTO oneboard(int id) -->
+	<select id="oneboard" parameterType="int" resultType="BoardDTO">
+		SELECT * FROM board WHERE id=#{id}
+	</select>
+	
+	<!-- public int oneboardmodify(BoardDTO bdto) -->
+	<update id="oneboardmodify" parameterType="BoardDTO">
+		UPDATE board SET title=#{title}, writer=#{writer}, content=#{content} WHERE id=#{id}
+	</update>
+	
+	<!-- public int remove(int id) -->
+	<delete id="remove" parameterType="int">
+		DELETE FROM board WHERE id=#{id}
+	</delete>
+	
+	<!-- public List<BoardDTO> searchBoard(String searchType, String findKeyword) -->
+	<select id="searchBoard" resultType="BoardDTO">
+		SELECT * FROM board
+		<where>
+			<choose>
+				<when test="searchType == 'title'">
+					title LIKE CONCAT("%",#{findKeyword},"%")
+				</when>
+				<otherwise>
+					content LIKE CONCAT("%",#{findKeyword},"%")
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY id DESC
+	</select>
+</mapper>

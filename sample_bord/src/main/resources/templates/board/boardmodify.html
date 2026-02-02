@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="styleSheet" th:href="@{/css/header_footer.css}">
+</head>
+
+<body>
+	<header th:replace="~{header_footer.html::header}"></header>
+	<section>
+		<div id="section_wrap">
+			<div class="title"><h1>게시글 수정</h1></div>
+			<Form th:action="@{/board/boardmodify(id=${onelist.id})}" name="modifyForm" method="POST">
+				<table width="500" border="1">
+					<tbody>
+						<tr height="50">
+							<td width="150" align="center">제목</td>
+							<td width="350" align="center">
+								<input type="text" name="title" th:value="${onelist.title}"/>
+							</td>
+						</tr>
+						<tr height="50">
+							<td width="150" align="center">작성자</td>
+							<td width="350" align="center">
+								<input type="text" name="writer" th:value="${onelist.writer}"/>
+							</td>
+						</tr>
+						<tr height="300">
+							<td width="150" align="center">내용</td>
+							<td width="350" align="center">
+								<input type="text" name="content" th:value="${onelist.content}"/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" />
+			</Form>
+		</div>
+	</section>
+	<footer th:replace="~{header_footer.html::footer}"></footer>
+</body>
+</html>

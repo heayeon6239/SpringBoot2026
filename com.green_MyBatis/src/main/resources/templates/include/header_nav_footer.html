@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Member Join</title>
+<link rel="sytlesheet" th:href="@{/css/commom.css}">
+<link rel="sytlesheet" th:href="@{/css/home.css}">
+<link rel="sytlesheet" th:href="@{/css/header_nav_footer.css}">
+</head>
+<body>
+<!-- header, nav, footer(공통부분)은 flagment로 뺌 -->
+	<header th:flagment="header"> 
+		<div id="top">
+			<h3>Member Join</h3>
+		</div>
+		<div id="header_wrap">
+			<a th:href="@{/}">HOME</a>
+			<!-- 비로그인 상태시 메뉴바 -->
+		<th:block th:if="${session.loginmember == null}">
+			<a th:href="@{/member/signup}">회원가입</a>
+			<a th:href="@{/member/login}">로그인</a>
+		</th:block>
+		
+		<th:block th:if="${session.loginmember != null}">
+			<span th:if="${session.loginmember.id == 'admin9867'}" style="color:blue;">관리자</span>
+			
+			<span th:unless="${session.loginmember.id == 'admin9867'}">
+				<span th:text="${session.loginmember.id}"></span>님 환영합니다.
+			</span>
+			
+			<th:block th:if="${session.loginmember.id == 'admin9867'}">
+				<a th:href="@{/member/list}">전체회원</a>
+				<a th:href="@{/member/logout}">로그아웃</a>
+			</th:block>	
+			
+			<th:block th:if="${session.loginmember.id != 'admin9867'}">
+				<a th:href="@{/member/logout}">로그아웃</a>
+			</th:block>
+			
+			<a th:href="@{/member/memberInfo(id=${session.loginmember.id})}">MyPage</a>
+				
+		</th:block>
+			<a th:href="@{/board/list}">게시판</a>
+		</div>
+	</header>
+	
+	<nav th:flagment="nav">
+		<div id="nav_wrap">
+			<a th:href="@{/example}">EXAMPLE</a>
+		</div>
+	</nav>
+	
+	<footer th:flagment="footer">
+		<div id="footer_wrap">
+			Copyright OFFICE @Green
+		</div>
+	</footer>
+</body>
+</html>

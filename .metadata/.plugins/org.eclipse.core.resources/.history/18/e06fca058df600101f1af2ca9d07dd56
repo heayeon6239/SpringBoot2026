@@ -1,8 +1,0 @@
-package com.green;
-
-import org.springframework.stereotype.Controller;
-
-@Controller // 컨트롤러
-public class BookController {
-	
-}
