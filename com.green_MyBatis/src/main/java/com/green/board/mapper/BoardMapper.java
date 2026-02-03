@@ -30,7 +30,11 @@ public interface BoardMapper {
 	// 제목, 내용 검색 추상 메서드
 	public List<BoardDTO> getSearchBoard(@Param("searchType") String searchType, @Param("SearchKeyword") String SearchKeyword);
 	
+	// 전체 게시글의 개수를 구하는 메서드
+	public int getAllCount();
 	
+	// 전체 게시글의 시작 게시글 번호(startRow), 몇개의 행(pageSize)만큼 보는 메서드
+	public List<BoardDTO> getPageList(@Param("startRow") int startRow, @Param("pageSize") int pageSize);
 }
 	
 	

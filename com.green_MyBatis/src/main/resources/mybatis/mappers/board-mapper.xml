@@ -54,4 +54,17 @@
 		ORDER BY num DESC
 	</select>
 	
+	<!-- ----------------------- 2026-02-03 -------------------------- -->
+	
+	<!-- public int getAllCount(); -->
+	<select id="getAllCount" resultType="int">
+		SELECT COUNT(*) FROM board
+	</select>
+	
+	<!-- public List<BoardDTO> getPageList(@Param("startRow") int startRow, @Param("pageSize") int pageSize); -->
+	<select id="getPageList" resultType="BoardDTO">
+		SELECT * FROM board ORDER BY num DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
 </mapper>

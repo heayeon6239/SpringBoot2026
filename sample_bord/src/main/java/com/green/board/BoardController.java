@@ -18,10 +18,30 @@ public class BoardController {
 	
 	// 메인게시판으로 화면 이동하는 메서드(전체 게시글 출력)
 	@GetMapping("/board/boardMain")
-	public String boardPage(Model model, 
+	public String boardPage(
+			Model model, // boardList를 화면에 출력시켜야 하기때문에 model을 통해 값을 담아서 공유해야함
 			@RequestParam(value="searchType", required=false) String searchType, 
 			@RequestParam(value="findKeyword", required=false)String findKeyword, 
-			RedirectAttributes re) { // boardList를 화면에 출력시켜야 하기때문에 model을 통해 값을 담아서 공유해야함
+			// 01. 현재 페이지 번호 => 1부터 시작이므로 초기값 1로 정의
+			@RequestParam(value="page", defaultValue = "1") int page,
+			// 02. 한 페이지의 사이즈 => 한 화면에 보여지는 게시글 개수 5개로 초기화
+			@RequestParam(value="onePageSize", defaultValue = "5") int onePageSize,
+			RedirectAttributes re) { 
+		
+		// 03. 전체 게시글 개수인 totalCnt 메서드 가져오기
+		int totalCnt = boardservice.getAllCount();
+		
+		// 04. PageHandler 클래스에 접근하기 위해 인스턴스화(매개변수 넣어서)
+		
+		//     여기서 매개변수로 값을 받는 (totalCnt, page, onePageSize)는 
+		//     -> totalCnt 처럼 DB에서 select를 통해 값을 가져와야하거나,
+		//     -> page, onePageSize처럼 값을 지정해줘야 할 때 
+		//     Controller에서 매개변수로 값을 넣어줌
+		
+		//     (※ pageBlock도 여기서 값을 지정하는게 맞지만, 그럼 Handler에서 계산을 할 수 없기 때문에 예외,
+		//      만약 다른 Controller에서 PageBlock을 3->5로 수정하고 싶다면 setter를 통해 교체 !! )
+		                                // 20        1      5
+		PageHandler ph = new PageHandler(totalCnt, page, onePageSize);
 		
 		System.out.println("BoardController boardPage()");
 		System.out.println(searchType);
@@ -40,10 +60,14 @@ public class BoardController {
 		}
 		// 전체 게시판 출력
 		else {
-			boardList = boardservice.printAll();
+//			boardList = boardservice.printAll(); // 페이징이 안된 모든 게시글이 출력되는 메서드이므로 사용금지
+			boardList = boardservice.getPageList(ph.getStartRow(), onePageSize); 
+			// limit을 통해 페이징이 된 게시글이 출력되는 메서드로 교체
 		}
 		
 		model.addAttribute("list", boardList);
+		// PageHandler 클래스 모두 model객체에 담아서 html로 보내야 UI화면에 페이징을 그릴 수 있음
+		model.addAttribute("ph", ph);
 		return nextPage;
 	}
 	
@@ -122,8 +146,6 @@ public class BoardController {
 		}
 		
 	}
-	
-	// ----------------------- 2026-01-29 --------------------------
 
 	
 	

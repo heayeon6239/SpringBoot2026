@@ -8,6 +8,7 @@
 
 </head>
 <body>
+    
 	<header th:replace="~{header_footer.html::header}"></header>
 	<section>
 		<div id="section_wrap">
@@ -22,9 +23,15 @@
 							<th>작성일</th>
 						</tr>
 					</thead>
+					
+					<!-- <td th:text="${li.id}"></td> -->
+					<!-- 전체 게시글의 번호를 최신순으로 계산하는 공식 -->
+					<!-- 전체 게시글 개수 - ((현재 페이지 번호 - 1) * 한 화면의 게시글 개수) - 현재글 index 번호 -->
+					
 					<tbody>
-						<tr th:each="li: ${list}">
-							<td th:text="${li.id}"></td>
+						<tr th:each="li, stat: ${list}">
+							
+							<td th:text=${ph.totalCnt-((ph.pageNum-1)*ph.onePageSize)-stat.index}></td>
 							<td>
 								<a th:href="@{/board/oneboard(id=${li.id})}" th:text="${li.title}"></a>
 							</td>
@@ -33,7 +40,25 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<!-- 페이징 파트 -->
+				<div>
+					<!-- 이전 -->
+					<a th:if="${ph.prev}" th:href="@{/board/boardMain(page=${ph.startBlockPage-1})}">◀</a>
+					<span th:text="${ph.startBlockPage}"></span>
+					<!-- 페이징 번호 출력 -->
+					<span th:each="i : ${#numbers.sequence(ph.startBlockPage,ph.endBlockPage)}">
+						<a th:href="@{/board/boardMain(page=${i})}" th:text="${i}"></a>
+					</span>
+					
+					<!-- 이후 -->
+					<a th:if="${ph.next}" th:href="@{/board/boardMain(page=${ph.endBlockPage+1})}">▶</a>
+				</div>
+				
 				<a th:href="@{/board/boardWrite}">게시글 작성</a>
+				
+				<!-- 검색 파트 -->
+				
 				<form th:action="@{/board/boardMain}" method="GET">
 					<select name="searchType">
 						<option value="title">제목</option>

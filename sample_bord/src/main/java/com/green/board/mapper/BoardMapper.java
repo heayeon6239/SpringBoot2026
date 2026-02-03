@@ -28,5 +28,17 @@ public interface BoardMapper {
 	// 게시글 검색 추상 메서드
 	public List<BoardDTO> searchBoard(
 			@Param("searchType") String searchType, 
-			@Param("findKeyword") String findKeyword);
+			@Param("findKeyword") String findKeyword
+			);
+	
+	// ----------------------- 2026-02-03 --------------------------
+	
+	// 전체 게시글의 개수를 구하는 메서드
+	public int getAllCount();
+	
+	// 전체 게시글의 시작 게시글번호(startRow), 몇개의 게시글(onePageSize)만큼 출력하는 메서드
+	public List<BoardDTO> getPageList(
+			@Param("startRow") int startRow,
+			@Param("onePageSize") int onePageSize
+			);
 }

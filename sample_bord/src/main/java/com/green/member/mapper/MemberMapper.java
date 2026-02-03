@@ -9,5 +9,8 @@ public interface MemberMapper {
 
 	// 회원가입 추가 추상 메서드
 	public int insertMember(MemberDTO mdto);
+
+	// 로그인 추상 메서드
+	public MemberDTO selectlogin(MemberDTO mdto);
 	
 }

@@ -6,6 +6,13 @@
 <mapper namespace="com.green.member.mapper.MemberMapper">
 	
 	<!-- public int insertMember(MemberDTO mdto) -->
-	<insert id="insertMember" parameterType="MemberDTO"></insert>
+	<insert id="insertMember" parameterType="MemberDTO">
+		INSERT INTO user_member(id,pw,mail,phone) VALUES(#{id},#{pw},#{mail},#{phone})
+	</insert>
+	
+	<!-- public MemberDTO selectlogin(MemberDTO mdto) -->
+	<select id="selectlogin" parameterType="MemberDTO" resultType="MemberDTO">
+		SELECT * FROM user_member WHERE id=#{id}
+	</select>
 	
 </mapper>

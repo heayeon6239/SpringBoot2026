@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.green.board.mapper.BoardMapper;
 
@@ -48,9 +49,24 @@ public class BoardService {
 	
 	// ----------------------- 2026-01-29 --------------------------
 	
-//	// 게시글 검색 메서드
+	// 게시글 검색 메서드
 	public List<BoardDTO> search(String searchType, String findKeyword){
 		System.out.println("BoardService search() 검색 메서드");
 		return boardmapper.searchBoard(searchType, findKeyword);
+	}
+	
+	// ----------------------- 2026-02-03 --------------------------
+	
+	// 전체 게시글의 개수를 구하는 메서드
+	public int getAllCount() {
+		System.out.println("BoardService getAllCount()");
+		return boardmapper.getAllCount();
+	}
+	
+	// 전체 게시글의 시작 게시글번호(startRow), 몇개의 게시글(onePageSize)만큼 출력하는 메서드
+	// (페이징 처리가 된 버전)
+	public List<BoardDTO> getPageList(int startRow, int onePageSize){
+		System.out.println("BoardService getPageList()");
+		return boardmapper.getPageList(startRow, onePageSize);
 	}
 }

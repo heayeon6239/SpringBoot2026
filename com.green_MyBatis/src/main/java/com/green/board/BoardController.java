@@ -58,8 +58,19 @@ public class BoardController {
 	@GetMapping("/board/list")
 	public String boardListForm(Model model, 
 			@RequestParam(value="searchType", required=false) String searchType, 
-			@RequestParam(value="SearchKeyword", required=false) String SearchKeyword) {
+			@RequestParam(value="SearchKeyword", required=false) String SearchKeyword,
+			// 01. 페이지 번호 => 1부터 시작이므로 초기값 1로 정의
+			@RequestParam(value="page", defaultValue = "1") int page,
+			// 02. 페이지 사이즈 => 한 화면에 보여지는 게시글의 개수를 5로 초기화
+			@RequestParam(value="pageSize", defaultValue = "5") int pageSize
+			) {
 		System.out.println("(1) BoardController boardListForm()");
+		
+		// 03. 전체 게시글의 개수인 totalCnt 메서드 가져오기
+		int totalCnt = boardservice.getAllCount();
+		
+		// 04. pageHandler 클래스 접근하기 위해 인스턴스화
+		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
 		
 		List<BoardDTO> listboard;
 		
@@ -69,10 +80,15 @@ public class BoardController {
 		}
 		// 전체 출력
 		else {
-			listboard = boardservice.allBoard(); // 전체보기
+//			listboard = boardservice.allBoard(); // 전체보기
+			// 위 메서드 사용 못하는 이유 : 페이징이 안된 모든 레코드가 출력되는 메서드이므로 사용 금지
+			listboard = boardservice.getPageList(ph.getStartRow(), pageSize);
 		}
 		// 검색 내용만 담겼거나, 전체가 담긴 listboard를 li에 담음
 		model.addAttribute("li", listboard);
+		// PageHandler 클래스 모두 model객체에 담아서 html로 보내야 UI화면에 페이징을 그릴 수 있음
+		model.addAttribute("ph", ph);
+		
 		String nextPage = "/board/boardList";
 		return nextPage;
 	}

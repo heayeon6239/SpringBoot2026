@@ -45,4 +45,19 @@
 		</where>
 		ORDER BY id DESC
 	</select>
+	
+	
+	
+	<!--전체 게시글의 개수를 구하는 메서드
+	public int getAllCount();-->
+	<select id="getAllCount" resultType="int">
+		SELECT COUNT(*) FROM board
+	</select>
+	
+	<!-- 전체 게시글의 시작 게시글번호(startRow), 몇개의 게시글(onePageSize)만큼 출력하는 메서드
+	public List<BoardDTO> getPageList(@Param("startRow") int startRow, @Param("onePageSize") int onePageSize); -->
+	<select id="getPageList" resultType="BoardDTO">
+		SELECT * FROM board ORDER BY id DESC LIMIT #{startRow}, #{onePageSize}
+	</select>
+	
 </mapper>
