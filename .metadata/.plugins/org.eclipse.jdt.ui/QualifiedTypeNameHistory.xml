@@ -38,6 +38,6 @@
     <fullyQualifiedTypeName name="com.green.member.mapper.MemberMapper"/>
     <fullyQualifiedTypeName name="com.green.board.PageHandler"/>
     <fullyQualifiedTypeName name="org.springframework.security.config.annotation.web.configuration.EnableWebSecurity"/>
-    <fullyQualifiedTypeName name="org.apache.ibatis.annotations.Param"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="org.apache.ibatis.annotations.Param"/>
 </qualifiedTypeNameHistroy>

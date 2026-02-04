@@ -54,7 +54,6 @@
 		ORDER BY num DESC
 	</select>
 	
-	<!-- ----------------------- 2026-02-03 -------------------------- -->
 	
 	<!-- public int getAllCount(); -->
 	<select id="getAllCount" resultType="int">
@@ -64,6 +63,57 @@
 	<!-- public List<BoardDTO> getPageList(@Param("startRow") int startRow, @Param("pageSize") int pageSize); -->
 	<select id="getPageList" resultType="BoardDTO">
 		SELECT * FROM board ORDER BY num DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	<!-- 검색 페이징에 필요한 메서드 생성 -->
+	<!-- public int getSearchCount(String searchType, String searchKeyword) -->
+	<select id="getSearchCount" resultType="int">
+		SELECT COUNT(*) FROM board
+		<where>
+			<choose>
+				<when test="searchType == 'subject'">
+					subject LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					content LIKE CONCAT("%",#{searchKeyword},"%")
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+	<!-- public List<BoardDTO> getSearchPageList(String searchType, String searchKeyword, int startRow, int pageSize) -->
+	<select id="getSearchPageList" resultType="BoardDTO">
+		SELECT * FROM board 
+		<where>
+			<choose>
+				<when test="searchType == 'subject'">
+					subject LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					content LIKE CONCAT("%",#{searchKeyword},"%")
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY num DESC 
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<!-- public int getMyBoardCount(String loginId) -->
+	<select id="getMyBoardCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM board WHERE id=#{loginId}
+	</select>
+	
+	<!-- public List<BoardDTO> getMyBoardList (String loginId, int startRow, int pageSize) -->
+	<!-- 해당 유저의 id와 board의 id가 같은 게시글의 목록만 출력 -> 테이블의 join 필요 -->
+	<!-- select 필드명 from 테이블이름 별칭 inner join 테이블이름 별칭 on 별칭.pk = 별칭.fk -->
+	<select id="getMyBoardList" resultType="BoardDTO">
+		SELECT b.num,b.subject, b.reg_date,b.readcount,m.id as writer 
+		FROM board b 
+		INNER JOIN user_member m ON b.id = m.id
+		WHERE b.id=#{loginId}
+		ORDER BY b.num DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 	

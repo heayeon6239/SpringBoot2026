@@ -83,4 +83,31 @@ public class BoardService {
 		System.out.println("BoardService getPageList()");
 		return boardmapper.getPageList(startRow, pageSize);
 	}
+	
+	// ----------------------- 2026-02-04 --------------------------
+	
+	// 검색 페이징에 필요한 메서드 생성
+	// searchType, searchKeyword에 해당하는 검색된 개수를 반환하는 메서드
+	public int getSearchCount(String searchType, String searchKeyword) {
+		System.out.println("BoardService getSearchCount()");
+		return boardmapper.getSearchCount(searchType, searchKeyword);
+	}
+		
+	// searchType, searchKeyword, startRow, pageSize => limit startRow부터, pageSize개 만큼(한 화면에 보여질 게시글 개수)
+	public List<BoardDTO> getSearchPageList(String searchType, String searchKeyword, int startRow, int pageSize){
+		System.out.println("BoardService getSearchPageList()");
+		return boardmapper.getSearchPageList(searchType, searchKeyword, startRow, pageSize);
+	}
+	
+	// 로그인된 나만의 게시글 개수
+	public int getMyBoardCount(String loginId) {
+		System.out.println("BoardService getMyBoardCount()");
+		return boardmapper.getMyBoardCount(loginId);
+	}
+	
+	// ------ 로그인된 상태의 나만의 게시글을 MyPage.html에 출력 ------
+	public List<BoardDTO> getMyBoardList(String loginId, int startRow, int pageSize){
+		System.out.println("BoardService getMyBoardList()");
+		return boardmapper.getMyBoardList(loginId, startRow, pageSize);
+	}
 }
