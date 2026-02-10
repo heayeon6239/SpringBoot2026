@@ -10,6 +10,7 @@ dtd/mybatis-3-config.dtd">
 <typeAliases>
 	<typeAlias alias="MemberDTO" type="com.green.member.MemberDTO"/>
 	<typeAlias alias="BoardDTO" type="com.green.board.BoardDTO"/>
+	<typeAlias alias="CarProductDTO" type="com.green.carproduct.CarProductDTO"/>
 </typeAliases>
 <!-- 이렇게 연결도 가능하지만 application.properties에서 하는게 더 편함 -->
 <!-- <mappers>

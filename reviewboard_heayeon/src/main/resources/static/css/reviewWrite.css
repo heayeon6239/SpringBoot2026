@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+/* 기본 폰트 및 배경 */
+    body {
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        background-color: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px;
+        color: #333;
+    }
+
+    h1 {
+        color: #2d3436;
+        margin-bottom: 30px;
+        font-weight: 700;
+    }
+
+    /* 폼 컨테이너 */
+    .content {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        width: 100%;
+        max-width: 600px; /* 테이블 800은 너무 넓어서 살짝 줄였습니다 */
+    }
+
+    /* 테이블 스타일 초기화 및 재설정 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 25px;
+        border: none; /* 기존 border="1" 제거 권장 */
+    }
+
+    td {
+        padding: 15px 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    td:first-child {
+        font-weight: 600;
+        color: #636e72;
+        width: 80px;
+    }
+
+    /* 입력창 스타일 */
+    input[type="text"], select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #dfe6e9;
+        border-radius: 8px;
+        box-sizing: border-box; /* 패딩 때문에 삐져나가는 것 방지 */
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+
+    input[type="text"]:focus, select:focus {
+        outline: none;
+        border-color: #0984e3;
+        box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
+    }
+
+    /* 버튼 스타일 */
+    .btn-area {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    input[type="submit"], input[type="reset"] {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+    }
+
+    input[type="submit"] {
+        background-color: #0984e3;
+        color: white;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #074b83;
+        transform: translateY(-2px);
+    }
+
+    input[type="reset"] {
+        background-color: #ecf0f1;
+        color: #7f8c8d;
+    }
+
+    input[type="reset"]:hover {
+        background-color: #bdc3c7;
+    }

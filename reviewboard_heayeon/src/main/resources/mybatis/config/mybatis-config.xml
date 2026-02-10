@@ -2,3 +2,12 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "https://mybatis.org/
 dtd/mybatis-3-config.dtd">
+
+<!-- 전역 환경 설정 -->
+<configuration>
+
+<typeAliases>
+	<typeAlias alias="ReviewBoardDTO" type="reviewboard.dto.ReviewBoardDTO"/>
+</typeAliases>
+
+</configuration>

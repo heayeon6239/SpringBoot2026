@@ -57,7 +57,7 @@ public class BoardController {
 	// 03-1 검색기능을 추가한 커스텀 버전
 	@GetMapping("/board/list")
 	public String boardListForm(Model model, 
-			@RequestParam(value="searchType", required=false) String searchType, 
+			@RequestParam(value="searchType", required=false) String searchType,
 			@RequestParam(value="searchKeyword", required=false) String searchKeyword,
 			// 01. 페이지 번호 => 1부터 시작이므로 초기값 1로 정의
 			@RequestParam(value="page", defaultValue = "1") int page,

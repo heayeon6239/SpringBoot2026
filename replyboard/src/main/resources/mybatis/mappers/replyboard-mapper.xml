@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="replyboard.mapper.ReplyBoardMapper">
+	<!-- public void insertReplyBoard(ReplyBoardDTO rdto) -->
+	<!-- 
+		ref는 처음에는 비어있으므로 ifnull()함수를 이용하여 기본적으로 1부터 시작하도록 작성
+		
+		★ ifnull(max(ref)+1,1) 
+		=> ifnull(인수1, 인수2)은 인수1이 null이면 인수2 출력, 인수1이 null이 아니면 인수1 출력
+		
+		★ re_step = 1; // 댓글이 아니라 부모 원글이므로 기본값으로 1을 정의
+		★ re_level = 1; // 댓글이 아니라 부모 원글이므로 기본값으로 1을 정의
+	 -->
+	<insert id="insertReplyBoard" parameterType="rDTO">
+		INSERT INTO replyBoard (writer,email,subject,password,ref,re_step,re_level,content,upload1,upload2)
+		VALUES(#{writer},#{email},#{subject},#{password},
+		(SELECT IFNULL(MAX(r.ref)+1,1) FROM replyBoard r), 1, 1, #{content},#{upload1},#{upload2})
+	</insert>
+	
+	<!-- public List<ReplyBoardDTO> getAllReplyBoard(); -->
+	<!-- ref : 내림차순 re_step : 오름차순 -->
+	<select id="getAllReplyBoard" resultType="rDTO">
+		SELECT * FROM replyBoard ORDER BY ref DESC, re_step ASC
+	</select>
+	
+	<!-- 하나의 게시글을 리턴받는 메서드
+	public ReplyBoardDTO getOneBoard(int num); -->
+	<select id="getOneBoard" resultType="rDTO" parameterType="int">
+		SELECT * FROM replyBoard WHERE num=#{num}
+	</select>
+	
+	<!-- 답글 작성하여 추가하는 메서드
+	public void reWriteInsert(ReplyBoardDTO rdto); -->
+	<insert id="reWriteInsert" parameterType="rDTO">
+		INSERT INTO replyBoard (writer,email,subject,password,ref,re_step,re_level,content)
+		VALUES(#{writer},#{email},#{subject},#{password},#{ref},#{re_step}+1, #{re_level}+1,#{content})
+	</insert>
+	
+	
+	<!-- 답글 작성 시 부모글의 re_level보다 큰 값들을 모두 1씩 증가시키는 메서드 => 반드시 먼저 선행되어야함
+	★ 이유 : 기존의 먼저 달린 댓글이 존재할 경우 +1을 누적하여 정렬을 아래로 내리고, 새로 달린 댓글이 들어와야 숫자가 겹치지 않고 신규댓글이 위로 올라올 수 있음
+	public void reSqUpdate(ReplyBoardDTO rdto); -->
+	<update id="reSqUpdate" parameterType="rDTO">
+		UPDATE replyBoard SET re_step=re_step+1 
+		WHERE ref=#{ref} AND re_step > #{re_step}
+	</update>
+	
+</mapper>

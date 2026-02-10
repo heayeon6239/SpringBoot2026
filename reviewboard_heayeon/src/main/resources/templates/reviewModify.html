@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>list</title>
+<link rel="stylesheet" th:href="@{/css/reviewList.css}">
+</head>
+<body>
+	<h1>리뷰 수정하기</h1>
+	<div class="content">
+		<form th:action="@{/review/reviewModifyPro}" method="post">
+			<table>
+				<tbody>
+					<tr>
+						<td th:text="${list.num}"></td>
+						<input type="hidden" name="num" th:value="${list.num}">
+					</tr>
+					<tr>
+						<td>제목:</td>
+						<td>
+							<input type="text" name="title" th:value="${list.title}">
+						</td>
+					</tr>	
+					<tr>
+						<td>작성자:</td>
+						<td th:text=${list.writer}></td>
+					</tr>
+					<tr>
+						<td>별점:</td>
+						<td>
+							<select name="rating">
+								<option value="5" th:selected="${list.rating == 5}">5점</option>
+								<option value="4" th:selected="${list.rating == 4}">4점</option>
+								<option value="3" th:selected="${list.rating == 3}">3점</option>
+								<option value="2" th:selected="${list.rating == 2}">2점</option>
+								<option value="1" th:selected="${list.rating == 1}">1점</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>내용:</td>
+						<td>
+							<input type="text" name="content" th:value="${list.content}">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<button type="submit" class="btn">수정 완료</a>
+		</form>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="questBoard.mapper.QuestBoardMapper">
+	
+	<!-- 전체 출력 메서드
+	public List<QuestBoardDTO> getAllList(); -->
+	<select id="getAllList" resultType="QuestBoardDTO">
+		SELECT * FROM qboard
+	</select>
+	
+	<!-- 작성 처리 메서드
+	public void insertWriteBoard(QuestBoardDTO qdto); -->
+	<insert id="insertWriteBoard" parameterType="QuestBoardDTO">
+		INSERT INTO qboard(writer, email, subject, reg_date, ref, re_step, content)
+		VALUES(#{writer}, #{email}, #{subject}, #{reg_date}, 
+		(SELECT IFNULL(MAX(ref)+1,1)), 1, #{content})
+	</insert>
+
+	
+</mapper>

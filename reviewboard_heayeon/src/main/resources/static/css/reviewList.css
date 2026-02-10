@@ -1,0 +1,91 @@
+@charset "UTF-8";
+
+/* 기본 배경 설정 */
+body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    margin: 0;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 흰색 컨테이너 상자 */
+.content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 900px;
+}
+
+/* 평균 별점 */
+h3 {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+h3 span {
+    color: #f39c12;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border: none; /* HTML의 border="1"을 무시하게 함 */
+}
+
+th {
+    background-color: #f1f3f5;
+    padding: 15px;
+    border-bottom: 2px solid #dee2e6;
+    color: #495057;
+}
+
+td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+/* 1. 제목 링크 클래스 (.title) */
+.title {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.title:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* 2. 리뷰 작성 버튼 클래스 (.btn) */
+.btn {
+    display: inline-block; /* 중요: 이걸 해야 크기가 잡힘 */
+    margin-top: 30px;
+    padding: 12px 30px;
+    background-color: #343a40; /* 진한 회색/검정 */
+    color: #ffffff !important; /* 글자색 흰색 강제 */
+    text-decoration: none !important;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #212529;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}

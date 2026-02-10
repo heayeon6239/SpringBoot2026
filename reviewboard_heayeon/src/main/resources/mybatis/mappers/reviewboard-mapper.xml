@@ -1,3 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper인터페이스의 구현체를 작성하는 곳 xml -->
+<!-- namespace = "ReviewMapper 패키지 경로.인터페이스 이름" 해서 연결 -->
+<mapper namespace="reviewboard.mapper.ReviewBoardMapper">
+	
+	<!-- 리뷰 저장하는 메서드
+	int insertReview(ReviewBoardDTO rdto); -->
+	<insert id="insertReview" parameterType="ReviewBoardDTO">
+		INSERT INTO reviewboard(title,content,writer,rating,viewCount)
+		VALUES (#{title},#{content},#{writer},#{rating},#{viewCount})
+	</insert>
+	
+	<!-- 전체 리뷰 리스트 출력 메서드
+	List<ReviewBoardDTO> selectAllReviewList(); -->
+	<select id="selectAllReviewList" resultType="ReviewBoardDTO">
+		SELECT * FROM reviewboard ORDER BY num DESC
+	</select>
+	
+	<!-- 전체 평균 평점 구하는 메서드
+	double avgReviewRating(); -->
+	<select id="avgReviewRating" resultType="double">
+		SELECT round(avg(rating),2) FROM reviewboard
+	</select>
+	
+	<!-- 해당 상세 리뷰 보는 메서드
+	public ReviewBoardDTO selectDetailReview(int num); -->
+	<select id="selectDetailReview" parameterType="int" resultType="ReviewBoardDTO">
+		SELECT * FROM reviewboard WHERE num=#{num}
+	</select>
+	
+	<!-- 해당 상세 리뷰 조회수 증가 메서드
+	public ReviewBoardDTO updateViewCount(int num); -->
+	<update id="updateViewCount" parameterType="int">
+		UPDATE reviewboard SET viewCount=viewCount+1 WHERE num=#{num}
+	</update>
+	
+	<!-- 해당 리뷰 수정 메서드
+	public int updateReview(int num); -->
+	<update id="updateReview" parameterType="ReviewBoardDTO">
+		UPDATE reviewboard SET title=#{title}, content=#{content}, rating=#{rating} WHERE num=#{num}
+	</update>
+	
+	<!-- 해당 리뷰 삭제 메서드
+	public int DeleteReview(int num); -->
+	<delete id="DeleteReview" parameterType="int">
+		DELETE FROM reviewboard WHERE num=#{num}
+	</delete>
+	
+	<!-- 리뷰 개수 메서드
+	public int reviewBoardCnt(); -->
+	<select id="reviewBoardCnt" resultType="int">
+		SELECT COUNT(*) FROM reviewboard
+	</select>
+	
+	<!-- 한 페이지에 보여줄 리뷰 리스트만 자르는 메서드
+	public List<ReviewBoardDTO> selectPageList(int startRow, int endRow); -->
+	<select id="selectPageList" resultType="ReviewBoardDTO">
+		SELECT * FROM reviewboard ORDER BY num DESC
+		LIMIT #{startRow}, #{endRow}
+	</select>
+	
+</mapper>
