@@ -28,6 +28,36 @@ public class QuestBoardServiceImpl implements QuestBoardService{
 		questboardmapper.insertWriteBoard(qdto);
 		
 	}
+
+	// 상세 게시글 출력 메서드
+	@Override
+	public QuestBoardDTO detail(int num) {
+		System.out.println("QuestBoardServiceImpl detail()");
+		return questboardmapper.boardDetail(num);
+	}
+
+	// 댓글 insert 메서드
+	@Override
+	public void replywrite(QuestBoardDTO qdto) {
+		System.out.println("QuestBoardServiceImpl replywrite()");
+		questboardmapper.reply(qdto);
+		
+	}
+
+	// 이미 댓글이 달렸는지 확인하는 메서드
+	@Override
+	public boolean checkReply(int ref) {
+		System.out.println("QuestBoardServiceImpl checkReply()");
+		int result = questboardmapper.check(ref);
+		// 존재 = 1
+		if(result > 0) {
+			return true;
+		}
+		// 존재X = 0
+		else {
+			return false;
+		}
+	}
 	
 	
 

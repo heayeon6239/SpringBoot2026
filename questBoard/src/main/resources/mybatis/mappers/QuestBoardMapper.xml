@@ -7,16 +7,35 @@
 	<!-- 전체 출력 메서드
 	public List<QuestBoardDTO> getAllList(); -->
 	<select id="getAllList" resultType="QuestBoardDTO">
-		SELECT * FROM qboard
+		SELECT * FROM qboard ORDER BY ref DESC, re_step ASC
 	</select>
 	
 	<!-- 작성 처리 메서드
 	public void insertWriteBoard(QuestBoardDTO qdto); -->
 	<insert id="insertWriteBoard" parameterType="QuestBoardDTO">
-		INSERT INTO qboard(writer, email, subject, reg_date, ref, re_step, content)
-		VALUES(#{writer}, #{email}, #{subject}, #{reg_date}, 
-		(SELECT IFNULL(MAX(ref)+1,1)), 1, #{content})
+		INSERT INTO qboard(writer, email, subject, ref, re_step, content, img)
+		VALUES(#{writer}, #{email}, #{subject}, 
+		(SELECT IFNULL(MAX(q.ref)+1,1) FROM qboard q), 1, #{content}, #{img})
 	</insert>
+	
+	<!-- 상세 게시글 출력 메서드
+	public QuestBoardDTO boardDetail(int num); -->
+	<select id="boardDetail" parameterType="int" resultType="QuestBoardDTO">
+		SELECT * FROM qboard WHERE num=#{num}
+	</select>
+	
+	<!-- 댓글 insert 메서드
+	public void reply(QuestBoardDTO qdto); -->
+	<insert id="reply" parameterType="QuestBoardDTO">
+		INSERT INTO qboard(writer, subject, ref, re_step, content)
+		VALUES(#{writer}, #{subject}, #{ref}, 2, #{content})
+	</insert>
+	
+	<!-- 이미 댓글이 달렸는지 확인하는 메서드
+	public int check(int ref); -->
+	<select id="check" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM qboard WHERE ref=#{ref} AND re_step=2
+	</select>
 
 	
 </mapper>

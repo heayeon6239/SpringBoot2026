@@ -95,15 +95,21 @@
 			<td width="320" align="center">제목</td>
 			<td width="100" align="center">작성자</td>
 			<td width="150" align="center">작성일자</td>
-			<td width="80" align="center">조회수</td>
 		</tr>
 						<tr th:each="li, stat:${list}">
 			            <td th:text="${stat.size - stat.index}"></td>
 			            <td style="text-align:left;">
+			            
+			            		<!-- 썸네일 이미지 -->
+			            		<img th:if="${li.img != null}"
+			            			 th:src="@{/upload/{img}(img=${li.img})}"
+			            			 width="50"
+			            			 height="50"
+			            			 style="border:1px solid #ccc">
 			       
 						        <!-- 답글인 경우 -->
 						        <span th:if="${li.re_step > 1}"
-						             th:style="padding-left:20px">
+						             style="padding-left:20px">
 						            ↳[re]
 						        </span>
 						
@@ -112,10 +118,14 @@
 						      </td>
 			            <td th:text="${li.writer}"></td>
 			            <td th:text="${#dates.format(li.reg_date, 'yyyy-MM-dd HH:mm')}"></td>
-			            <td th:text="${li.readcount}"></td>
+			            <!-- <td th:text="${li.reg_date}"></td> -->
 			         </tr>
 	    </table>
   </div>
+  
+    <script th:if="${msg}">
+    alert('[[${msg}]]');
+  </script>
   
   
 </body>

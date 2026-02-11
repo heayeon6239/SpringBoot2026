@@ -11,6 +11,7 @@ public class QuestBoardDTO {
 	private int ref; // 같은 원글 번호
 	private int re_step; // 댓글 출력 순서
 	private String content; // 내용
+	private String img; // 이미지
 	
 	public int getNum() {
 		return num;
@@ -59,6 +60,12 @@ public class QuestBoardDTO {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
 	}
 	
 	
