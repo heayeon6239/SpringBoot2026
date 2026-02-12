@@ -8,6 +8,11 @@ import AuthProvider from './contexts/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import Signup from './pages/Signup';
+import SignupResult from './pages/SignupResult';
+import Login from './pages/Login';
+import MyInfo from './pages/MyInfo';
+import Modify from './pages/Modify';
 
 function App() {
 
@@ -23,6 +28,11 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<Home/>}/>
+              <Route path="/member/signup" element={<Signup/>}/>
+              <Route path="/member/signup_result" element={<SignupResult/>}/>
+              <Route path="/member/login" element={<Login/>}/>
+              <Route path="/member/myinfo" element={<MyInfo/>}/>
+              <Route path="/member/modify" element={<Modify/>}/>
             </Routes>
           </main>
           <Footer/>

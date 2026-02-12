@@ -23,18 +23,18 @@ export default function Header(){
                 ):(
                     <>
                         <span style={{fontWeight:'bold', color:'#333'}}>
-                            {user.id === 'admin9867' ? 
+                            {user === 'admin9867' ? 
                             <>
                                 <span>관리자</span>
                                 <Link to="/member/list">회원목록</Link>
                             </>
                             :
-                            <span>{user.id}님 환영합니다.</span> }
+                            <span>{user}님 환영합니다.</span> }
                         </span>
 
                         {/* logout 함수 연결부분 */}
                         <Link to="/" onClick={logout}>로그아웃</Link>
-                        <Link to="/member/memberInfo">MyPage</Link>
+                        <Link to="/member/myinfo">개인상세정보</Link>
                     </>
                 )}
                 <Link to="/board/mypage">게시판</Link>

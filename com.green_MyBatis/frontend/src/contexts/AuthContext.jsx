@@ -12,11 +12,12 @@ export default function AuthProvider({children}){
     // 자동 로그인 처리 (useEffect 이용, 딱 한번 실행) -> 브라우저가 새로고침되더라도 로그인이 유지되도록
     // 컴포넌트가 처음 화면에 나타날때(Mount) 딱 한번 실행
     useEffect(()=>{
+        // 서버에서 세션에 정보를 저장했기때문에 react에서 정보를 확인할 수 없음 그래서 여기서도 세션에서 관리하여 눈으로 확인할 수 있도록 해줌
         // 세션 스토리지에서 'user'라는 이름으로 저장된 문자열을 가져옴
         // ※ 세션 스토리지는 웹에서 탭을 종료하면 무조건 삭제됨(localStorage는 영구 삭제 안됨)
         const saveUser = sessionStorage.getItem('user');
 
-        // 저장된 데이터가 있다면 문자열을 다시 자바스크립트 객체로 변환(JSON.parse)하여 상태에 저장
+        // 저장된 데이터가 있다면 문자열을 다시 자바스크립트 객체로 변환(JSON.parse)하여 상태에 저장해서 화면에서 사용
         if(saveUser){
             setUser(JSON.parse(saveUser));
         }
@@ -44,7 +45,7 @@ export default function AuthProvider({children}){
 
     // 데이터 공급 : Provider 사용
     return(
-        <AuthContext.Provider value={(user, login, logout)}>
+        <AuthContext.Provider value={{user, login, logout}}>
             {/* ★ Provider 사이에 위치한 모든 컴포넌트들은 위 value를 공유받음 */}
             {children}
         </AuthContext.Provider>

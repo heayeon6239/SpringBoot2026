@@ -1,7 +1,10 @@
 package com.green.member;
 
+import java.util.Date;
+
 // 데이터를 전송하는 객체
 public class MemberDTO {
+	
 	// 테이블
 	private int no; // 사용자 고유번호(PK) = auto
 	private String id; // 사용자 아이디
